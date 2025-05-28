@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Riba Shaikh - Professional Portfolio</title>
+<!-- FontAwesome CDN for icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+<style>
+  /* Base Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0; padding: 0;
+    background: #121212; /* Very dark gray */
+    color: #eae0c8; /* Soft off-white */
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+  }
+  a {
+    color: #b8913f; /* Warm gold */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover, a:focus {
+    color: #d4b84a;
+    outline: none;
+  }
+  /* Scrollbar for large screens */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #b8913f;
+    border-radius: 10px;
+  }
+
+  /* Navbar */
+  nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 64px;
+    background: #1f1f1f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    box-shadow: 0 2px 10px rgba(184, 145, 63, 0.3);
+    z-index: 10000;
+  }
+  nav .logo {
+    font-weight: 900;
+    letter-spacing: 4px;
+    font-size: 1.8rem;
+    color: #b8913f;
+    user-select: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 3rem;
+  }
+  nav ul li {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  nav ul li a {
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding-bottom: 4px;
+  }
+  nav ul li a::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background: #b8913f;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+  }
+  nav ul li a:hover::after,
+  nav ul li a:focus-visible::after {
+    width: 100%;
+  }
+
+  /* Hamburger icon - mobile */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .hamburger div {
+    height: 3px;
+    background: #b8913f;
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+
+  /* Show nav as dropdown on mobile */
+  @media (max-width: 768px) {
+    nav ul {
+      position: fixed;
+      right: -100%;
+      top: 64px;
+      height: calc(100vh - 64px);
+      width: 220px;
+      flex-direction: column;
+      background: #222222;
+      padding-top: 2rem;
+      gap: 1.5rem;
+      transition: right 0.35s ease;
+      box-shadow: -4px 0 14px rgba(184, 145, 63, 0.4);
+      border-radius: 0 0 0 12px;
+      z-index: 9999;
+    }
+    nav ul.active {
+      right: 0;
+    }
+    .hamburger {
+      display: flex;
+    }
+  }
+
+  /* Layout container */
+  main {
+    margin: 64px auto 0;
+    max-width: 960px;
+    padding: 2rem 1rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 4rem;
+  }
+
+  /* Section styling */
+  section {
+    background: #1c1c1c;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    box-shadow:
+      0 8px 20px rgba(184, 145, 63, 0.15),
+      inset 0 0 30px #b8913f40;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  section h2 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #b8913f;
+    margin-bottom: 1.6rem;
+    border-bottom: 2px solid #d4b84a;
+    padding-bottom: 0.6rem;
+    user-select: none;
+  }
+
+  /* Hero - intro section */
+  #hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    background: linear-gradient(120deg, #342c0f, #120f07);
+    border-radius: 12px;
+    box-shadow:
+      0 8px 25px rgba(184, 145, 63, 0.4);
+  }
+  #hero h1 {
+    font-weight: 900;
+    font-size: 4.5rem;
+    color: #d4b84a;
+    text-shadow: 0 0 10px #b8913f88;
+    margin: 0 0 1rem 0;
+    letter-spacing: 8px;
+  }
+  #hero p {
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: #e6dca9;
+    max-width: 560px;
+    user-select: none;
+    margin: 0;
+  }
+  #hero .scroll-down {
+    margin-top: 2rem;
+    font-size: 2.5rem;
+    color: #b8913fdd;
+    cursor: pointer;
+    animation: bounce 2.5s infinite ease-in-out;
+    user-select: none;
+  }
+  #hero .scroll-down:hover {
+    color: #d4b84a;
+  }
+  @keyframes bounce {
+    0%,100% {transform: translateY(0);}
+    50% {transform: translateY(15px);}
+  }
+
+  /* About Me section */
+  #about p {
+    font-weight: 400;
+    font-size: 1.17rem;
+    line-height: 1.8;
+    color: #cdc29c;
+  }
+
+  /* Skills */
+  #skills .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.6rem;
+  }
+  .skill-item {
+    background: #2e2a10;
+    width: 140px;
+    height: 140px;
+    border-radius: 18px;
+    box-shadow:
+      0 5px 15px rgba(184, 145, 63, 0.5),
+      inset 0 0 30px #b8913f77;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.3rem;
+    cursor: default;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    user-select: none;
+    position: relative;
+    color: #f5f0c5;
+  }
+  .skill-item:hover,
+  .skill-item:focus-visible {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow:
+      0 15px 40px rgba(212, 184, 74, 0.7),
+      inset 0 0 50px #d4b84a99;
+    outline: none;
+  }
+  .skill-icon {
+    font-size: 3.8rem;
+    color: #d4b84a;
+    margin-bottom: 12px;
+  }
+  .skill-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  /* Tooltip on skill */
+  .skill-tooltip {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3c3513dd;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #e2dca6;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 0 12px #b8913fcc;
+    user-select: none;
+    z-index: 20;
+  }
+  .skill-item:hover .skill-tooltip,
+  .skill-item:focus-visible .skill-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Education */
+  .education-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .edu-item {
+    background: #2b2610;
+    box-shadow:
+      0 6px 22px rgba(184, 145, 63, 0.4),
+      inset 0 0 35px #b8913f99;
+    padding: 1.8rem 2.3rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    user-select: none;
+    color: #f2e9be;
+  }
+  .edu-item:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow:
+      0 18px 52px rgba(212, 184, 74, 0.8),
+      inset 0 0 70px #d4b84acc;
+  }
+  .edu-icon {
+    font-size: 3rem;
+    color: #d4b84a;
+    flex-shrink: 0;
+  }
+  .edu-details h3 {
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin: 0 0 0.45rem 0;
+    color: #d4b84a;
+    letter-spacing: 0.07em;
+  }
+  .edu-details p {
+    margin: 0.15rem 0;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #cbc092dd;
+    line-height: 1.4;
+  }
+
+  /* Contact / footer */
+  footer {
+    padding: 3rem 1.5rem 3.5rem;
+    background: #1c1a0e;
+    text-align: center;
+    color: #cfc49d;
+    user-select: none;
+  }
+  footer p#contact-title {
+    font-size: 2.2rem;
+    margin-bottom: 1.8rem;
+    color: #d4b84a;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+  }
+  footer .socials a {
+    color: #d4b84a;
+    font-size: 2rem;
+    margin: 0 1.5rem;
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  footer .socials a:hover,
+  footer .socials a:focus {
+    color: #e9d75a;
+    outline: none;
+    transform: scale(1.2);
+  }
+  footer p.contact-invite {
+    max-width: 460px;
+    margin: 1.5rem auto 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #dad2a7cc;
+  }
+  footer p.copyright {
+    margin-top: 2.7rem;
+    font-size: 0.9rem;
+    color: #a3996fcc;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    nav {
+      padding: 1rem 1.5rem;
+    }
+    nav ul {
+      gap: 2rem;
+      padding-top: 3rem;
+      width: 185px;
+      top: 64px;
+    }
+    main {
+      padding: 2rem 1rem 4rem 1rem;
+      max-width: 100%;
+    }
+    #hero h1 {
+      font-size: 3.8rem;
+      letter-spacing: 5px;
+    }
+    #hero p {
+      font-size: 1.15rem;
+      max-width: 90%;
+    }
+    #skills .skills-list {
+      gap: 1.8rem;
+    }
+    .skill-item {
+      width: 110px;
+      height: 110px;
+      font-size: 0.95rem;
+      padding: 1rem 1rem;
+    }
+    .edu-item {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+      padding: 1.3rem 1rem;
+    }
+    .edu-icon {
+      font-size: 3.5rem;
+      margin: 0 auto;
+    }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo" aria-label="Riba Shaikh Portfolio Logo">Riba Shaikh</div>
+  <div class="hamburger" id="hamburger" aria-label="Toggle menu" tabindex="0" role="button" aria-expanded="false" aria-controls="nav-links">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ul id="nav-links" role="menu" tabindex="-1">
+    <li role="none"><a href="#hero" aria-label="Home" role="menuitem" tabindex="0">Home</a></li>
+    <li role="none"><a href="#about" aria-label="About Me" role="menuitem" tabindex="0">About Me</a></li>
+    <li role="none"><a href="#skills" aria-label="Skills" role="menuitem" tabindex="0">Skills</a></li>
+    <li role="none"><a href="#education" aria-label="Education" role="menuitem" tabindex="0">Education</a></li>
+    <li role="none"><a href="#contact" aria-label="Contact" role="menuitem" tabindex="0">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section id="hero" tabindex="-1" aria-label="Introduction">
+    <h1>Riba Shaikh</h1>
+    <p>First Year Engineering Student - AIML<br />Aadarsh College of Engineering, Vita</p>
+    <p class="scroll-down" aria-label="Scroll down to About Me section" role="button" tabindex="0"><i class="fas fa-angle-down"></i></p>
+  </section>
+
+  <section id="about" tabindex="-1" aria-label="About Me Section">
+    <h2>About Me</h2>
+    <p>I'm Riba Shaikh, an ambitious and passionate first-year engineering student specializing in Artificial Intelligence and Machine Learning at Aadarsh College of Engineering, Vita. With successful completion of my SSC and HSC, I have cultivated strong analytical and problem-solving skills. My aim is to master AI techniques and contribute innovative solutions to real-world challenges. I actively engage in projects, self-learning, and workshops to reach my professional goals.</p>
+  </section>
+
+  <section id="skills" tabindex="-1" aria-label="Skills Section">
+    <h2>Skills</h2>
+    <div class="skills-list" role="list">
+      <div class="skill-item" role="listitem" tabindex="0" aria-label="Python Programming Skill">
+        <div class="skill-icon"><i class="fab fa-python" aria-hidden="true"></i></div>
+        <div class="skill-name">Python</div>
+        <div class="skill-tooltip">Experienced in Python for AI programming, data manipulation, and scripting.</div>
+      </div>
+      <div class="skill-item" role="listitem" tabindex="0" aria-label="Machine Learning Skill">
+        <div class="skill-icon"><i class="fas fa-robot" aria-hidden="true"></i></div>
+        <div class="skill-name">Machine Learning</div>
+        <div class="skill-tooltip">Understanding of algorithms like regression, classification & model evaluation.</div>
+      </div>
+      <div class="skill-item" role="listitem" tabindex="0" aria-label="Data Analysis Skill">
+        <div class="skill-icon"><i class="fas fa-chart-line" aria-hidden="true"></i></div>
+        <div class="skill-name">Data Analysis</div>
+        <div class="skill-tooltip">Proficient in analyzing datasets using Python libraries like Pandas and visualization tools.</div>
+      </div>
+      <div class="skill-item" role="listitem" tabindex="0" aria-label="Artificial Intelligence Skill">
+        <div class="skill-icon"><i class="fas fa-brain" aria-hidden="true"></i></div>
+        <div class="skill-name">Artificial Intelligence</div>
+        <div class="skill-tooltip">Focus on Neural Networks, Deep Learning & NLP projects to solve complex tasks.</div>
+      </div>
+      <div class="skill-item" role="listitem" tabindex="0" aria-label="JavaScript Skill">
+        <div class="skill-icon"><i class="fab fa-js-square" aria-hidden="true"></i></div>
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-tooltip">Building interactive, responsive UI components with solid JS fundamentals.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" tabindex="-1" aria-label="Education and Academic Background">
+    <h2>Education</h2>
+    <div class="education-list">
+      <div class="edu-item">
+        <div class="edu-icon" aria-hidden="true"><i class="fas fa-school"></i></div>
+        <div class="edu-details">
+          <h3>Secondary School Certificate (SSC)</h3>
+          <p>Graduated with excellent foundation in sciences, including physics, chemistry, mathematics, and computer basics.</p>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-icon" aria-hidden="true"><i class="fas fa-graduation-cap"></i></div>
+        <div class="edu-details">
+          <h3>Higher Secondary Certificate (HSC)</h3>
+          <p>Concentrated on Science stream with deepened knowledge in advanced mathematics, physics, and chemistry.</p>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-icon" aria-hidden="true"><i class="fas fa-laptop-code"></i></div>
+        <div class="edu-details">
+          <h3>Aadarsh College of Engineering, Vita</h3>
+          <p>Current student of first year engineering in Artificial Intelligence and Machine Learning branch.</p>
+          <p>Participating in college-level coding competitions, workshops, and group projects to enhance practical skills.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact" tabindex="-1" aria-label="Contact information">
+  <p id="contact-title">Get in touch</p>
+  <div class="socials" aria-label="Social media links">
+    <a href="mailto:riba.shaikh@example.com" aria-label="Email" target="_blank" rel="noopener"><i class="fas fa-envelope"></i></a>
+    <a href="https://linkedin.com/in/ribashaikh" aria-label="LinkedIn" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+    <a href="https://github.com/ribashaikh" aria-label="GitHub" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+  </div>
+  <p class="contact-invite">Feel free to connect for internships, projects, or professional networking. Excited to collaborate and learn with you!</p>
+  <p class="copyright">&copy; 2024 Riba Shaikh. All rights reserved.</p>
+</footer>
+
+<script>
+  // Hamburger menu toggle for mobile
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+
+  function toggleNav() {
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !expanded);
+    navLinks.classList.toggle('active');
+  }
+
+  hamburger.addEventListener('click', toggleNav);
+  hamburger.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      toggleNav();
+    }
+  });
+
+  // Scroll animation with smooth reveal effect
+  const sections = document.querySelectorAll('section');
+  function revealSections() {
+    const triggerBottom = window.innerHeight * 0.8;
+    sections.forEach((section, index) => {
+      const sectionTop = section.getBoundingClientRect().top;
+      if(sectionTop < triggerBottom){
+        setTimeout(() => {
+          section.classList.add('visible');
+        }, index * 200);
+      } else {
+        section.classList.remove('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', revealSections);
+  window.addEventListener('load', revealSections);
+
+  // Scroll button on Hero
+  const scrollDownBtn = document.querySelector('#hero .scroll-down');
+  scrollDownBtn.addEventListener('click', () =>{
+    document.getElementById('about').scrollIntoView({behavior: 'smooth'});
+  });
+  scrollDownBtn.addEventListener('keypress', e => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      document.getElementById('about').scrollIntoView({behavior: 'smooth'});
+    }
+  });
+</script>
+</body>
+</html>
+
